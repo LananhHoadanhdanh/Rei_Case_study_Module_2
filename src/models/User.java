@@ -75,7 +75,7 @@ public class User {
     }
 
     public String toString() {
-        return String.format("%-20s %-10d %-20s %-25s %-20s %-20s", fullName, age, phoneNumber, email, username, password);
+        return String.format("%-20s %-10d %-20s %-25s", fullName, age, phoneNumber, email);
     }
 
     public void doCheckInForCustomer(int roomId) throws MyException {

@@ -32,21 +32,25 @@ public class UserManage {
         } return -1;
     }
 
-    public static void getAdminInformation(String username) {
+    public static void updateUser(String username, User user) {
+        usersList.set(findIndexByUsername(username), user);
+    }
+
+    public static void getUserInformation(String username) {
         if (findIndexByUsername(username) != -1) {
             System.out.println();
-            System.out.println("______________________*** THÔNG TIN TÀI KHOẢN ***______________________");
+            System.out.println("____________________________*** THÔNG TIN TÀI KHOẢN ***____________________________");
             System.out.printf("%-20s %-10s %-20s %-25s %n", "Họ và tên", "Tuổi", "Số điện thoại", "Email");
             System.out.println();
             System.out.println(usersList.get(findIndexByUsername(username)));
-            System.out.println("_______________________________________________________________________");
+            System.out.println("___________________________________________________________________________________");
             System.out.println();
         } else {
             System.err.println("Sai tên đăng nhập.");
         }
     }
 
-    public static void deleteAcc(String username) {
+    public static void deleteUser(String username) {
         if (findIndexByUsername(username) != -1) {
             usersList.remove(findIndexByUsername(username));
         } else {
