@@ -1,45 +1,31 @@
 package models;
 
-import java.util.TreeMap;
+import service.manage.UserManage;
+
+import java.util.Scanner;
 
 public class Account {
-    private TreeMap<String, String> accountMap;
 
-    public Account() {
-        accountMap = new TreeMap<>();
-        accountMap.put("reireirei", "chituhoa");
+    public static void register() {
+        UserManage.getUserList();
+        UserManage.add(UserManage.createUser());
     }
 
-    public Account(TreeMap<String, String> accountMap) {
-        this.accountMap = accountMap;
-    }
-
-    public void setAccountMap(TreeMap<String, String> accountMap) {
-        this.accountMap = accountMap;
-    }
-
-    public void register(String username, String password) {
-        boolean check = accountMap.containsKey(username);
-        if (!check) {
-            accountMap.put(username, password);
-            System.out.println("Đăng kí thành công!!!");
-        } else {
-            System.out.println("Tên đăng nhập đã tồn tại!!!");
+    public static boolean login() {
+        Scanner scanner = new Scanner(System.in);
+        UserManage.getUserList();
+        System.out.println("Nhập tên đăng nhập: ");
+        String username = scanner.nextLine();
+        while (UserManage.findIndexByUsername(username) == -1) {
+            System.err.println("Tên đăng nhập không đúng. Vui lòng nhập lại.");
+            username = scanner.nextLine();
         }
+
+        System.out.println("Nhập mật khẩu: ");
+        int index = UserManage.findIndexByUsername(username);
+        String password = scanner.nextLine();
+        return UserManage.getUserList().get(index).getPassword().equals(password);
     }
 
-    public boolean login(String username, String password) {
-        boolean check = accountMap.containsKey(username);
-        if (check) {
-            if (accountMap.get(username).equals(password)) {
-                System.out.println("Đăng nhập thành công!!!");
-                return true;
-            }
-            System.out.println("Sai mật khẩu");
-            return false;
-        }
-        System.out.println("Tài khoản không tồn tại");
-        return false;
-    }
 
 }

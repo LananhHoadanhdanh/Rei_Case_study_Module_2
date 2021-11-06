@@ -1,12 +1,23 @@
 package models;
 
+import service.manage.ReceiptManage;
+import service.manage.UserManage;
+
+import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
+
 public class Room {
-//    public static final
+    public static final String OCCUPIED = "Đang có khách thuê";
+    public static final String ON_CHANGE = "Đang dọn dẹp";
+    public static final String READY = "Sẵn sàng";
+
     private int roomID;
     private int price;
     private String status;
     private int numberOfBed;
     private int numberOfToilet;
+    private String lastCheckIn;
+    private String lastCheckOut;
 
     public Room() {
     }
@@ -57,5 +68,55 @@ public class Room {
 
     public void setNumberOfToilet(int numberOfToilet) {
         this.numberOfToilet = numberOfToilet;
+    }
+
+    public String getLastCheckIn() {
+        return lastCheckIn;
+    }
+
+    public void setLastCheckIn(String lastCheckIn) {
+        this.lastCheckIn = lastCheckIn;
+    }
+
+    public String getLastCheckOut() {
+        return lastCheckOut;
+    }
+
+    public void setLastCheckOut(String lastCheckOut) {
+        this.lastCheckOut = lastCheckOut;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%-10d %-10d %-20s %-15d %-15d", roomID, price, status, numberOfBed, numberOfToilet);
+    }
+
+    public Boolean doCheckIn() {
+        if (this.getStatus().equals(Room.READY)) {
+            this.setStatus(Room.OCCUPIED);
+            this.setLastCheckIn(java.time.LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean doCheckOut() {
+        if (this.getStatus().equals(Room.OCCUPIED)) {
+            this.setStatus(Room.ON_CHANGE);
+            this.setLastCheckOut(java.time.LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean cleanTheRoom() {
+        if (this.getStatus().equals(Room.ON_CHANGE)) {
+            this.setStatus(Room.READY);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
