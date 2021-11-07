@@ -78,46 +78,45 @@ public class User {
         return String.format("%-20s %-10d %-20s %-25s", fullName, age, phoneNumber, email);
     }
 
-    public void doCheckInForCustomer(int roomId) throws MyException {
+    public void doCheckInForCustomer(int roomId) {
         if (RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).doCheckIn()) {
             System.out.println("Đã hoàn tất thủ tục check-in. Thời gian: " + java.time.LocalDate.now());
         } else {
-            throw new MyException("Không thể hoàn tất thủ tục check-in. Phòng đang ở trạng thái: " + RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus());
+            System.err.println("Không thể hoàn tất thủ tục check-in. Phòng đang ở trạng thái: " + RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus());
         }
     }
 
-    public void doCheckOutForCustomer(int roomId) throws MyException {
+    public void doCheckOutForCustomer(int roomId) {
         if (RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).doCheckOut()) {
             System.out.println("Đã hoàn tất thủ tục check-out. Thời gian: " + java.time.LocalDate.now());
 
             Scanner scanner = new Scanner(System.in);
             System.out.print("Nhập số hóa đơn: ");
             String receiptId = scanner.nextLine();
+            ReceiptManage.getReceiptList();
+            while (ReceiptManage.findIndexById(receiptId) != -1) {
+                System.out.println("Số hóa đơn đã tồn tại, vui lòng nhập lại");
+                receiptId = scanner.nextLine();
+            }
             System.out.print("Nhập tên khách hàng: ");
             String customerName = scanner.nextLine();
             String staffName = this.getFullName();
             String checkInTime = RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getLastCheckIn();
             String checkOutTime = RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getLastCheckOut();
             ReceiptManage.getReceiptList();
-            Receipt receipt = new Receipt(receiptId, customerName, checkInTime, checkOutTime);
-            receipt.setRoomId(roomId);
-            receipt.setStaffName(staffName);
+            Receipt receipt = new Receipt(receiptId, customerName, staffName, checkInTime, checkOutTime, roomId);
             ReceiptManage.add(receipt);
 
         } else {
-            throw new MyException("Không thể hoàn tất thủ tục check-out. Phòng đang ở trạng thái: " + RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus());
+            System.err.println("Không thể hoàn tất thủ tục check-out. Phòng đang ở trạng thái: " + RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus());
         }
     }
 
-    public void cleanTheRoom(int roomId) throws MyException {
+    public void cleanTheRoom(int roomId){
         if (RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).cleanTheRoom()) {
             System.out.println("Đã dọn dẹp xong. ");
         } else {
-            throw new MyException("Không thể dọn dẹp. Phòng đang ở trạng thái: " + RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus());
+            System.err.println("Không thể dọn dẹp. Phòng đang ở trạng thái: " + RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus());
         }
-    }
-
-    public void getReceiptByDay(String startDay, String endDay) throws ParseException {
-        ReceiptManage.displayReceiptList(startDay, endDay);
     }
 }

@@ -2,6 +2,7 @@ package service.manage;
 
 import models.DateCalculator;
 import models.Receipt;
+import models.Validation;
 import service.interfaceService.ReceiptService;
 
 import java.io.BufferedWriter;
@@ -9,17 +10,23 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ReceiptManage implements ReceiptService {
     private static ArrayList<Receipt> receiptList;
 
     private ReceiptManage() {
+
     }
 
     public static ArrayList<Receipt> getReceiptList() {
         if (receiptList == null) {
             receiptList = new ArrayList<>();
+            receiptList.add(new Receipt("000001", "Lươn Như Anh", "Phạm Thị Lan Anh", "07/11/2021", "10/11/2021" ,101));
+            receiptList.add(new Receipt("000002", "Lươn Đình Ánh", "Phạm Thị Lan Anh", "07/11/2021", "10/11/2021" ,102));
+            receiptList.add(new Receipt("000003", "Lươn Đức Việt", "Phạm Thị Lan Anh", "07/11/2021", "10/11/2021" ,103));
         }
         return receiptList;
     }
@@ -28,12 +35,20 @@ public class ReceiptManage implements ReceiptService {
         receiptList.add(receipt);
     }
 
-    public static void update(String id, Receipt receipt) {
-        receiptList.set(findIndexById(id), receipt);
-    }
-
     public static void delete(String id) {
         receiptList.remove(findIndexById(id));
+    }
+
+    public static void displayAllReceipt() {
+        Collections.sort(receiptList);
+        System.out.println();
+        System.out.println("______________________*** DANH SÁCH TOÀN BỘ HÓA ĐƠN ***_____________________");
+        System.out.printf("%-15s %-20s %-20s %-15s %-15s %-15s %n", "Số hóa đơn", "Khách hàng", "Nhân viên", "Ngày check-in", "Ngày check-out", "Tổng tiền");
+        for (int i = 0; i < receiptList.size(); i++) {
+            System.out.println(receiptList.get(i));
+        }
+        System.out.println("____________________________________________________________________________");
+
     }
 
     public static int findIndexById(String id) {
@@ -44,7 +59,8 @@ public class ReceiptManage implements ReceiptService {
         } return -1;
     }
 
-    public static void displayReceiptList(String startDay, String endDay) throws ParseException {
+    public static void displayReceiptListByDay(String startDay, String endDay) throws ParseException {
+        Collections.sort(receiptList);
         int sumTotal = 0;
         System.out.println();
         System.out.println("__________________*** DANH SÁCH HÓA ĐƠN TỪ NGÀY " + startDay + " ĐẾN NGÀY " + endDay + " ***_________________");
@@ -58,13 +74,13 @@ public class ReceiptManage implements ReceiptService {
                 System.out.println(receipt);
             }
         }
-
         System.out.println("___________________________________________________________________________________________________");
         System.out.println("Tổng số tiền: " + sumTotal);
         System.out.println();
     }
 
     public static void writeReceiptToFile() throws IOException, ParseException {
+        Collections.sort(receiptList);
         FileWriter fileWriter = new FileWriter("src/service/manage.csv");
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         String str = "Số hóa đơn,Tên khách hàng,Tên nhân viên,Giờ check-in,Giờ check-out,Tổng số tiền";
@@ -80,5 +96,58 @@ public class ReceiptManage implements ReceiptService {
         }
         bufferedWriter.write(str);
         bufferedWriter.close();
+    }
+
+    public static Receipt createReceipt() throws ParseException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Nhập số hóa đơn: ");
+        String receiptId = scanner.nextLine();
+        ReceiptManage.getReceiptList();
+        while (ReceiptManage.findIndexById(receiptId) != -1) {
+            System.out.println("Số hóa đơn đã tồn tại, vui lòng nhập lại");
+            receiptId = scanner.nextLine();
+        }
+
+        System.out.print("Nhập tên khách hàng: ");
+        String customerName = scanner.nextLine();
+
+        System.out.print("Nhập tên nhân viên: ");
+        String staffName = scanner.nextLine();
+
+        System.out.println("Nhập ngày check-in (định dạng dd/MM/yyyy): ");
+        String checkInTime = scanner.nextLine();
+        while (!Validation.validateString(checkInTime, Validation.DATE_REGEX)) {
+            System.out.println("Ngày không hợp lệ. Vui lòng nhập lại.");
+            checkInTime = scanner.nextLine();
+        }
+        System.out.println("Nhập ngày check-out (định dạng dd/MM/yyyy): ");
+        String checkOutTime = scanner.nextLine();
+        while (!Validation.validateString(checkOutTime, Validation.DATE_REGEX) || DateCalculator.dateCompare(checkInTime, checkOutTime) > 0) {
+            if (!Validation.validateString(checkOutTime, Validation.DATE_REGEX)) {
+                System.err.println("Ngày không hợp lệ. Vui lòng nhập lại.");
+            }
+            if (DateCalculator.dateCompare(checkInTime, checkOutTime) > 0) {
+                System.err.println("Ngày check-out phải sau ngày check-in!");
+            }
+            checkInTime = scanner.nextLine();
+        }
+
+        System.out.print("Nhập số phòng: ");
+        int roomId = -1;
+        while (RoomManage.findIndexById(roomId) == -1 || roomId < 0) {
+            Scanner sc = new Scanner(System.in);
+            try {
+                roomId = sc.nextInt();
+                if (RoomManage.findIndexById(roomId) == -1) {
+                    System.err.println("Phòng không tồn tại. Vui lòng nhập lại.");
+                }
+                if (roomId < 0) {
+                    System.err.println("Số phòng không hợp lệ. Vui lòng nhập lại.");
+                }
+            } catch (InputMismatchException e){
+                System.err.println("Dữ liệu nhập vào không hợp lệ. Vui lòng nhập lại");
+            }
+        }
+        return new Receipt(receiptId, customerName, staffName, checkInTime, checkOutTime, roomId);
     }
 }

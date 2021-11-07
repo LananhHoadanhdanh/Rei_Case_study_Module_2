@@ -27,9 +27,9 @@ public class DateCalculator {
         return dateStart.compareTo(dateEnd);
     }
 
-    public static void main(String[] args) throws ParseException {
-        System.out.println(dateCalculator("20/09/1996","20/10/1996"));
-        System.out.println(dateCompare("20/09/1996","20/09/1996"));
-    }
+//    public static void main(String[] args) throws ParseException {
+//        System.out.println(dateCalculator("20/09/1996","20/10/1996"));
+//        System.out.println(dateCompare("20/09/1996","20/09/1996"));
+//    }
 
 }

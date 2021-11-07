@@ -9,9 +9,9 @@ import java.text.ParseException;
 
 public class Main {
     public static void main(String[] args) throws MyException, ParseException, IOException {
-//        User user = UserManage.getUserList().get(0);
-//        user.doCheckInForCustomer(101);
-//        user.doCheckOutForCustomer(101);
+        User user = UserManage.getUserList().get(0);
+        user.doCheckInForCustomer(101);
+        user.doCheckOutForCustomer(101);
         ReceiptManage.getReceiptList();
         ReceiptManage.writeReceiptToFile();
     }

@@ -4,6 +4,8 @@ import models.Room;
 import service.interfaceService.RoomService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RoomManage implements RoomService {
@@ -26,10 +28,6 @@ public class RoomManage implements RoomService {
         roomList.add(room);
     }
 
-    public static void update(int id, Room room) {
-        roomList.set(findIndexById(id), room);
-    }
-
     public static void delete(int id) {
         roomList.remove(findIndexById(id));
     }
@@ -43,6 +41,7 @@ public class RoomManage implements RoomService {
     }
 
     public static void displayListRoom() {
+        Collections.sort(roomList);
         System.out.println();
         System.out.println("________________________***  DANH SÁCH PHÒNG  ***________________________");
         System.out.printf("%-10s %-10s %-20s %-15s %-15s %n", "Số phòng", "Giá phòng", "Trạng thái phòng", "Số giường ngủ", "Số nhà VS");
@@ -69,15 +68,91 @@ public class RoomManage implements RoomService {
     }
 
     public static Room createRoom() {
-        Scanner scanner = new Scanner(System.in);
+        RoomManage.getRoomList();
+
         System.out.print("Nhập số phòng: ");
-        int roomId = scanner.nextInt();
+        int roomId = -1;
+        while (RoomManage.findIndexById(roomId) != -1 || roomId < 0) {
+            Scanner sc = new Scanner(System.in);
+            try {
+                roomId = sc.nextInt();
+                if (RoomManage.findIndexById(roomId) != -1) {
+                    System.err.println("Phòng đã tồn tại. Vui lòng nhập lại.");
+                }
+                if (roomId < 0) {
+                    System.err.println("Số phòng không hợp lệ. Vui lòng nhập lại.");
+                }
+            } catch (InputMismatchException e){
+                System.err.println("Dữ liệu nhập vào không hợp lệ. Vui lòng nhập lại");
+            }
+        }
+
         System.out.print("Nhập giá thuê phòng: ");
-        int price = scanner.nextInt();
+        int price = -1;
+        while (price < 0){
+            Scanner sc = new Scanner(System.in);
+            try {
+                price = sc.nextInt();
+                if (price < 0) {
+                    System.err.println("Số tiền không hợp lệ. Vui lòng nhập lại.");
+                }
+            } catch (InputMismatchException e){
+                System.err.println("Dữ liệu nhập vào không hợp lệ. Vui lòng nhập lại");
+            }
+        }
+
         System.out.print("Nhập số giường ngủ: ");
-        int numberOfBed = scanner.nextInt();
+        int numberOfBed = -1;
+        while (numberOfBed < 0){
+            Scanner sc = new Scanner(System.in);
+            try {
+                numberOfBed = sc.nextInt();
+                if (numberOfBed < 0) {
+                    System.err.println("Số không hợp lệ. Vui lòng nhập lại.");
+                }
+            } catch (InputMismatchException e){
+                System.err.println("Dữ liệu nhập vào không hợp lệ. Vui lòng nhập lại");
+            }
+        }
+
         System.out.print("Nhập số nhà vệ sinh: ");
-        int numberOfToilet = scanner.nextInt();
+        int numberOfToilet = -1;
+        while (numberOfToilet < 0){
+            Scanner sc = new Scanner(System.in);
+            try {
+                numberOfToilet = sc.nextInt();
+                if (numberOfToilet < 0) {
+                    System.err.println("Số không hợp lệ. Vui lòng nhập lại.");
+                }
+            } catch (InputMismatchException e){
+                System.err.println("Dữ liệu nhập vào không hợp lệ. Vui lòng nhập lại");
+            }
+        }
         return new Room(roomId, price, Room.READY, numberOfBed, numberOfToilet);
+    }
+
+    public static void displayReadyRoom() {
+        System.out.println();
+        System.out.println("______________________***  DANH SÁCH PHÒNG TRỐNG ***______________________");
+        System.out.printf("%-10s %-10s %-20s %-15s %-15s %n", "Số phòng", "Giá phòng", "Trạng thái phòng", "Số giường ngủ", "Số nhà VS");
+        System.out.println();
+        for (Room room : roomList) {
+            if (room.getStatus().equals(Room.READY)) {
+                System.out.println(room);
+            }
+        }
+        System.out.println("_____________________________________________________________________");
+        System.out.println();
+    }
+
+    public static void getInformationById(int id) {
+        Room room = RoomManage.getRoomList().get(RoomManage.findIndexById(id));
+        System.out.println();
+        System.out.println("______________________***  THÔNG TIN VỀ PHÒNG "+ id +" ***______________________");
+        System.out.printf("%-10s %-10s %-20s %-15s %-15s %n", "Số phòng", "Giá phòng", "Trạng thái phòng", "Số giường ngủ", "Số nhà VS");
+        System.out.println();
+        System.out.println(room);
+        System.out.println("__________________________________________________________________________");
+        System.out.println();
     }
 }

@@ -13,10 +13,4 @@ public class Account {
         int index = UserManage.findIndexByUsername(username);
         return UserManage.getUserList().get(index).getPassword().equals(password);
     }
-
-    public static void deleteAccount (String username) {
-        UserManage.deleteUser(username);
-    }
-
-
 }

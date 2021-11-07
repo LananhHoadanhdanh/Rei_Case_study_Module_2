@@ -4,6 +4,7 @@ import models.User;
 import models.Validation;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserManage {
@@ -51,11 +52,7 @@ public class UserManage {
     }
 
     public static void deleteUser(String username) {
-        if (findIndexByUsername(username) != -1) {
-            usersList.remove(findIndexByUsername(username));
-        } else {
-            System.err.println("Sai tên đăng nhập.");
-        }
+        usersList.remove(findIndexByUsername(username));
     }
 
     public static User createUser(){
@@ -63,39 +60,47 @@ public class UserManage {
         getUserList();
         System.out.println("Nhập tên đăng nhập: ");
         String username = scanner.nextLine();
-        while (findIndexByUsername(username) != -1 || !Validation.validateDay(username, Validation.LOGIN_NAME_REGEX)) {
+        while (findIndexByUsername(username) != -1 || !Validation.validateString(username, Validation.LOGIN_NAME_REGEX)) {
             System.err.println("Tên đăng nhập đã tồn tại hoặc không hợp lệ. Vui lòng nhập lại. (8-16 kí tự, không gồm kí tự đặc biệt)");
             username = scanner.nextLine();
         }
 
         System.out.println("Nhập mật khẩu: ");
         String password = scanner.nextLine();
-        while (!Validation.validateDay(password, Validation.PASSWORD_REGEX)) {
+        while (!Validation.validateString(password, Validation.PASSWORD_REGEX)) {
             System.err.println("Chưa hợp lệ. Mật khẩu gồm từ 8-16 kí tự, không gồm kí tự đặc biệt.");
             password = scanner.nextLine();
         }
+
         System.out.print("Nhập tên: ");
         String name = scanner.nextLine();
 
         System.out.print("Nhập tuổi: ");
-        int age = scanner.nextInt();
-        while (age < 18) {
-            System.err.println("Bạn phải từ 18 tuổi trở lên.");
-            age = scanner.nextInt();
+        int age = 17 ;
+        while (age < 18){
+            Scanner sc = new Scanner(System.in);
+            try {
+                age = sc.nextInt();
+                if(age < 18){
+                    System.out.println("Bạn phải từ 18 tuổi trở lên. Vui lòng nhập lại.");
+                }
+            } catch (InputMismatchException e){
+                System.out.println("Vui lòng nhập số nguyên lớn hơn 17.");
+            }
         }
 
+
         System.out.print("Nhập số điện thoại: ");
-        scanner.nextLine();
         String phoneNumber = scanner.nextLine();
-        while (!Validation.validateDay(phoneNumber, Validation.PHONE_NUMBER_REGEX)) {
-            System.err.println("Số điện thoại chưa hợp lệ, vui lòng nhập lại.");
+        while (!Validation.validateString(phoneNumber, Validation.PHONE_NUMBER_REGEX)) {
+            System.err.println("Số điện thoại chưa hợp lệ. Vui lòng nhập lại.");
             phoneNumber = scanner.nextLine();
         }
 
         System.out.print("Nhập địa chỉ email: ");
         String email = scanner.nextLine();
-        while (!Validation.validateDay(email, Validation.EMAIL_REGEX)) {
-            System.err.println("Địa chỉ email chưa hợp lệ, vui lòng nhập lại.");
+        while (!Validation.validateString(email, Validation.EMAIL_REGEX)) {
+            System.err.println("Địa chỉ email chưa hợp lệ. Vui lòng nhập lại.");
             email = scanner.nextLine();
         }
         return new User(name, age, phoneNumber, email, username, password);

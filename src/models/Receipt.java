@@ -4,7 +4,7 @@ import service.manage.RoomManage;
 
 import java.text.ParseException;
 
-public class Receipt {
+public class Receipt implements Comparable<Receipt>{
     private String receiptID;
     private String customerName;
     private String staffName;
@@ -20,6 +20,15 @@ public class Receipt {
         this.customerName = customerName;
         this.checkInTime = checkInTime;
         this.checkOutTime = checkOutTime;
+    }
+
+    public Receipt(String receiptID, String customerName, String staffName, String checkInTime, String checkOutTime, int roomId) {
+        this.receiptID = receiptID;
+        this.customerName = customerName;
+        this.staffName = staffName;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.roomId = roomId;
     }
 
     public int getRoomId() {
@@ -80,10 +89,17 @@ public class Receipt {
     public String toString() {
         String str = null;
         try {
-            str = String.format("%-15s %-20s %-20s %-15s %-15s %-15d", receiptID, customerName, staffName, checkInTime, checkOutTime,getTotalPrice());
+            str = String.format("%-15s %-20s %-20s %-15s %-15s %-15d", receiptID, customerName, staffName, checkInTime, checkOutTime, getTotalPrice());
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return str;
+    }
+
+    @Override
+    public int compareTo(Receipt o) {
+        if (getReceiptID().compareTo(o.getReceiptID()) > 0) return 1;
+        else if (getReceiptID().compareTo(o.getReceiptID()) < 0) return -1;
+        return 0;
     }
 }

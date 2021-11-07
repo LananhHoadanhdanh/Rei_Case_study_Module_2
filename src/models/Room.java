@@ -6,7 +6,7 @@ import service.manage.UserManage;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-public class Room {
+public class Room implements Comparable<Room>{
     public static final String OCCUPIED = "Đang có khách thuê";
     public static final String ON_CHANGE = "Đang dọn dẹp";
     public static final String READY = "Sẵn sàng";
@@ -28,6 +28,16 @@ public class Room {
         this.status = status;
         this.numberOfBed = numberOfBed;
         this.numberOfToilet = numberOfToilet;
+    }
+
+    public Room(int roomID, int price, String status, int numberOfBed, int numberOfToilet, String lastCheckIn, String lastCheckOut) {
+        this.roomID = roomID;
+        this.price = price;
+        this.status = status;
+        this.numberOfBed = numberOfBed;
+        this.numberOfToilet = numberOfToilet;
+        this.lastCheckIn = lastCheckIn;
+        this.lastCheckOut = lastCheckOut;
     }
 
     public int getRoomID() {
@@ -96,9 +106,7 @@ public class Room {
             this.setStatus(Room.OCCUPIED);
             this.setLastCheckIn(java.time.LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             return true;
-        } else {
-            return false;
-        }
+        } return false;
     }
 
     public boolean doCheckOut() {
@@ -106,17 +114,21 @@ public class Room {
             this.setStatus(Room.ON_CHANGE);
             this.setLastCheckOut(java.time.LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
             return true;
-        } else {
-            return false;
-        }
+        } return false;
     }
 
     public boolean cleanTheRoom() {
         if (this.getStatus().equals(Room.ON_CHANGE)) {
             this.setStatus(Room.READY);
             return true;
-        } else {
-            return false;
-        }
+        } return false;
+    }
+
+
+    @Override
+    public int compareTo(Room o) {
+        if (getRoomID() - o.getRoomID() > 0) return 1;
+        else if (getRoomID() - o.getRoomID() < 0) return -1;
+        return 0;
     }
 }
