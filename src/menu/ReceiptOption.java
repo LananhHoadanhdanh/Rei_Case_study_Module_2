@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public class ReceiptOption {
     public static void receiptOptionUpdateById() throws ParseException, IOException {
-        ReceiptManage.getReceiptList();
         String receiptId = null;
         System.out.print("Nhập số hóa đơn muốn sửa: ");
         while (ReceiptManage.findIndexById(receiptId) == -1){
@@ -30,7 +29,6 @@ public class ReceiptOption {
     }
 
     public static void receiptOptionDeleteById() throws IOException, ParseException {
-        ReceiptManage.getReceiptList();
         String receiptId = null;
         System.out.print("Nhập số hóa đơn muốn xóa: ");
         while (ReceiptManage.findIndexById(receiptId) == -1){
@@ -49,7 +47,6 @@ public class ReceiptOption {
     }
 
     public static void receiptOptionFindByDay() throws ParseException, IOException {
-        ReceiptManage.getReceiptList();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Nhập ngày bắt đầu (định dạng dd/MM/yyyy): ");
         String startTime = scanner.nextLine();

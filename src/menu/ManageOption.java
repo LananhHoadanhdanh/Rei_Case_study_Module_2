@@ -53,17 +53,10 @@ public class ManageOption {
     }
 
     public static void receiptManageOption() throws IOException, ParseException {
-        ReceiptManage.getReceiptList();
         int choice = -1;
         while (choice != 0) {
             ShowMenu.showReceiptMenu();
             choice = Account.choiceExceptionHandling();
-
-//        int choice = -1;
-//        while (choice != 0) {
-//            ShowMenu.showReceiptMenu();
-//            Scanner scanner = new Scanner(System.in);
-//            choice = scanner.nextInt();
             switch (choice) {
                 case 1:
                     ReceiptManage.displayAllReceipt();

@@ -3,7 +3,6 @@ package service.manage;
 import model.DateCalculator;
 import model.Receipt;
 import model.Validation;
-import service.interfaceService.ReceiptService;
 
 import java.io.*;
 import java.text.ParseException;
@@ -12,7 +11,7 @@ import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class ReceiptManage implements ReceiptService {
+public class ReceiptManage{
     private static ArrayList<Receipt> receiptList;
 
     private ReceiptManage() {

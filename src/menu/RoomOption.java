@@ -12,7 +12,6 @@ import java.util.Scanner;
 
 public class RoomOption {
     public static void roomOptionCheckIn(String username) throws IOException {
-        RoomManage.getRoomList();
         int roomId = 0;
         System.out.print("Nhập số phòng: ");
         while (RoomManage.findIndexById(roomId) == -1){
@@ -31,7 +30,6 @@ public class RoomOption {
     }
 
     public static void roomOptionCheckOut(String username) throws IOException, ParseException {
-        RoomManage.getRoomList();
         int roomId = 0;
         System.out.print("Nhập số phòng: ");
         while (RoomManage.findIndexById(roomId) == -1){
@@ -50,7 +48,6 @@ public class RoomOption {
     }
 
     public static void roomOptionClean(String username) throws IOException {
-        RoomManage.getRoomList();
         int roomId = 0;
         System.out.print("Nhập số phòng: ");
         while (RoomManage.findIndexById(roomId) == -1){
@@ -69,12 +66,10 @@ public class RoomOption {
     }
 
     public static void roomOptionAdd() throws IOException, ParseException {
-        RoomManage.getRoomList();
         RoomManage.add(RoomManage.createRoom());
     }
 
     public static void roomOptionUpdate() throws IOException, ParseException {
-        RoomManage.getRoomList();
         int roomId = 0;
         System.out.print("Nhập số phòng muốn sửa: ");
         while (RoomManage.findIndexById(roomId) == -1){
@@ -95,7 +90,6 @@ public class RoomOption {
     }
 
     public static void roomOptionInformationById() throws IOException {
-        RoomManage.getRoomList();
         int roomId = 0;
         System.out.print("Nhập số phòng: ");
         while (RoomManage.findIndexById(roomId) == -1){
@@ -113,7 +107,6 @@ public class RoomOption {
     }
 
     public static void roomOptionDeleteById() throws IOException, ParseException {
-        RoomManage.getRoomList();
         int roomId = 0;
         String status = RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus();
         System.out.print("Nhập số phòng: ");

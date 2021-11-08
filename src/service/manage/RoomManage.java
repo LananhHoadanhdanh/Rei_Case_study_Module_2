@@ -1,8 +1,6 @@
 package service.manage;
 
-import model.Receipt;
 import model.Room;
-import service.interfaceService.RoomService;
 
 import java.io.*;
 import java.text.ParseException;
@@ -11,7 +9,7 @@ import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class RoomManage implements RoomService {
+public class RoomManage{
     private static ArrayList<Room> roomList;
 
     private RoomManage() {
