@@ -17,7 +17,7 @@ public class ReceiptManage{
     private ReceiptManage() {
     }
 
-    public static ArrayList<Receipt> getReceiptList() throws IOException, ParseException {
+    public static ArrayList<Receipt> getReceiptList() {
         if (receiptList == null) {
             receiptList = new ArrayList<>();
         }
@@ -26,26 +26,27 @@ public class ReceiptManage{
 
     public static void add(Receipt receipt) throws IOException, ParseException {
         receiptList.add(receipt);
-        readReceiptFromFile();
         writeReceiptToFile();
+        readReceiptFromFile();
+
     }
 
     public static void delete(String id) throws IOException, ParseException {
         receiptList.remove(findIndexById(id));
-        readReceiptFromFile();
         writeReceiptToFile();
+        readReceiptFromFile();
     }
 
     public static void displayAllReceipt() {
         Collections.sort(receiptList);
         System.out.println();
-        System.out.println("______________________*** DANH SÁCH TOÀN BỘ HÓA ĐƠN ***_____________________");
+        System.out.println("________________________________________________*** DANH SÁCH TOÀN BỘ HÓA ĐƠN ***_______________________________________________");
         System.out.printf("%-15s %-20s %-20s %-15s %-15s %-15s %n", "Số hóa đơn", "Khách hàng", "Nhân viên", "Ngày check-in", "Ngày check-out", "Tổng tiền");
         for (int i = 0; i < receiptList.size(); i++) {
             System.out.println(receiptList.get(i));
         }
-        System.out.println("____________________________________________________________________________");
-
+        System.out.println("______________________________________________________________________________________________________");
+        System.out.println();
     }
 
     public static int findIndexById(String id) {

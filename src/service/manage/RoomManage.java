@@ -24,14 +24,14 @@ public class RoomManage{
 
     public static void add(Room room) throws IOException, ParseException {
         roomList.add(room);
-        readRoomFromFile();
         writeRoomToFile();
+        readRoomFromFile();
     }
 
     public static void delete(int id) throws IOException, ParseException {
         roomList.remove(findIndexById(id));
-        readRoomFromFile();
         writeRoomToFile();
+        readRoomFromFile();
     }
 
     public static int findIndexById(int id) {

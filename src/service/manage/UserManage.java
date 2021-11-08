@@ -1,12 +1,10 @@
 package service.manage;
 
-import model.Room;
 import model.User;
 import model.Validation;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -25,14 +23,14 @@ public class UserManage {
 
     public static void add(User user) throws IOException {
         usersList.add(user);
-        readUserFromFile();
         writeUserToFile();
+        readUserFromFile();
     }
 
     public static void deleteUser(String username) throws IOException {
         usersList.remove(findIndexByUsername(username));
-        readUserFromFile();
         writeUserToFile();
+        readUserFromFile();
     }
 
     public static int findIndexByUsername(String username){
