@@ -1,10 +1,12 @@
-package Menu;
+package menu;
 
-import models.Room;
-import models.User;
+import model.Room;
+import model.User;
 import service.manage.RoomManage;
 import service.manage.UserManage;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -28,7 +30,7 @@ public class RoomOption {
         user.doCheckInForCustomer(roomId);
     }
 
-    public static void roomOptionCheckOut(String username) {
+    public static void roomOptionCheckOut(String username) throws IOException, ParseException {
         RoomManage.getRoomList();
         int roomId = 0;
         System.out.print("Nhập số phòng: ");

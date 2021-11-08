@@ -1,7 +1,7 @@
 package service.manage;
 
-import models.User;
-import models.Validation;
+import model.User;
+import model.Validation;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -31,10 +31,6 @@ public class UserManage {
                 return i;
             }
         } return -1;
-    }
-
-    public static void updateUser(String username, User user) {
-        usersList.set(findIndexByUsername(username), user);
     }
 
     public static void getUserInformation(String username) {

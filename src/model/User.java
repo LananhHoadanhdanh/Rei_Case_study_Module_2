@@ -1,8 +1,9 @@
-package models;
+package model;
 
 import service.manage.ReceiptManage;
 import service.manage.RoomManage;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.Scanner;
 
@@ -80,13 +81,13 @@ public class User {
 
     public void doCheckInForCustomer(int roomId) {
         if (RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).doCheckIn()) {
-            System.out.println("Đã hoàn tất thủ tục check-in. Thời gian: " + java.time.LocalDate.now());
+            System.out.println(Validation.BLUE + "Đã hoàn tất thủ tục check-in. Thời gian: " + java.time.LocalDate.now() + Validation.BLUE);
         } else {
             System.err.println("Không thể hoàn tất thủ tục check-in. Phòng đang ở trạng thái: " + RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus());
         }
     }
 
-    public void doCheckOutForCustomer(int roomId) {
+    public void doCheckOutForCustomer(int roomId) throws IOException, ParseException {
         if (RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).doCheckOut()) {
             System.out.println("Đã hoàn tất thủ tục check-out. Thời gian: " + java.time.LocalDate.now());
 
@@ -114,7 +115,7 @@ public class User {
 
     public void cleanTheRoom(int roomId){
         if (RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).cleanTheRoom()) {
-            System.out.println("Đã dọn dẹp xong. ");
+            System.out.println(Validation.BLUE + "Đã dọn dẹp xong." + Validation.BLUE);
         } else {
             System.err.println("Không thể dọn dẹp. Phòng đang ở trạng thái: " + RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus());
         }

@@ -1,4 +1,4 @@
-package Menu;
+package menu;
 
 public class ShowMenu {
     public static void showLoginMenu() {
@@ -18,7 +18,6 @@ public class ShowMenu {
         System.out.println("0. Thoát khỏi menu quản lý");
     }
 
-
     public static void showRoomMenu() {
         System.out.println("________*** QUẢN LÝ PHÒNG ***________");
         System.out.println("1. Hiển thị danh sách phòng");
@@ -36,8 +35,8 @@ public class ShowMenu {
 
     public static void showReceiptMenu() {
         System.out.println("________*** QUẢN LÝ HÓA ĐƠN ***________");
-        System.out.println("1. Xóa hóa đơn");
-        System.out.println("2. Sửa thông tin hóa đơn theo số hóa đơn.");
+        System.out.println("1. Hiển thị danh sách hóa đơn");
+        System.out.println("2. Sửa thông tin hóa đơn theo số hóa đơn");
         System.out.println("3. Xóa hóa đơn");
         System.out.println("4. Tìm và tính tổng tiền hóa đơn theo khoảng thời gian");
         System.out.println("5. Xuất danh sách hóa đơn ra file");

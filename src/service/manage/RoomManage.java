@@ -1,6 +1,6 @@
 package service.manage;
 
-import models.Room;
+import model.Room;
 import service.interfaceService.RoomService;
 
 import java.util.ArrayList;

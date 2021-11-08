@@ -1,10 +1,6 @@
-package models;
-
-import service.manage.ReceiptManage;
-import service.manage.UserManage;
+package model;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Scanner;
 
 public class Room implements Comparable<Room>{
     public static final String OCCUPIED = "Đang có khách thuê";

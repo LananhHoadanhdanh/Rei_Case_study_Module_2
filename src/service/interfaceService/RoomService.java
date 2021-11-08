@@ -1,6 +1,6 @@
 package service.interfaceService;
 
-import models.Room;
+import model.Room;
 
 public interface RoomService extends GeneralService<Room> {
 //    void displayListRoom();

@@ -1,7 +1,6 @@
-package Menu;
+package menu;
 
-import models.Account;
-import models.MyException;
+import model.Account;
 import service.manage.UserManage;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ public class MainMenuOption {
         while (choice != 0) {
             Scanner scanner = new Scanner(System.in);
             ShowMenu.showLoginMenu();
-            choice = scanner.nextInt();
+            choice = Account.choiceExceptionHandling();
             switch (choice) {
                 case 1:
                     LoginMenu.loginToSystem();
@@ -23,16 +22,7 @@ public class MainMenuOption {
                     Account.register();
                     break;
                 case 3:
-                    System.out.print("Nhập tên đăng nhập: ");
-                    scanner.nextLine();
-                    String username = scanner.nextLine();
-                    UserManage.getUserList();
-                    int index = UserManage.findIndexByUsername(username);
-                    while (index == -1) {
-                        System.err.println("Sai tên đăng nhập. Vui lòng nhập lại!");
-                        username = scanner.nextLine();
-                        index = UserManage.findIndexByUsername(username);
-                    }
+                    String username = LoginMenu.createUsername();
                     System.out.print("Nhập mật khẩu: ");
                     String password = scanner.nextLine();
                     if (Account.login(username, password)) {
@@ -45,16 +35,7 @@ public class MainMenuOption {
                     }
                     break;
                 case 4:
-                    System.out.print("Nhập tên đăng nhập: ");
-                    scanner.nextLine();
-                    String usernameDelete = scanner.nextLine();
-                    UserManage.getUserList();
-                    int indexDelete = UserManage.findIndexByUsername(usernameDelete);
-                    while (indexDelete == -1) {
-                        System.err.println("Sai tên đăng nhập. Vui lòng nhập lại!");
-                        usernameDelete = scanner.nextLine();
-                        indexDelete = UserManage.findIndexByUsername(usernameDelete);
-                    }
+                    String usernameDelete = LoginMenu.createUsername();
                     System.out.print("Nhập mật khẩu: ");
                     String passwordDelete = scanner.nextLine();
                     if (Account.login(usernameDelete, passwordDelete)) {
@@ -71,4 +52,5 @@ public class MainMenuOption {
             }
         }
     }
+
 }

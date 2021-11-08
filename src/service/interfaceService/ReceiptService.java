@@ -1,6 +1,6 @@
 package service.interfaceService;
 
-import models.Receipt;
+import model.Receipt;
 
 public interface ReceiptService extends GeneralService<Receipt> {
 }

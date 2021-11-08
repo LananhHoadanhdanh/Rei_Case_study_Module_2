@@ -1,23 +1,22 @@
-package Menu;
+package menu;
 
+import model.Account;
 import service.manage.ReceiptManage;
 import service.manage.RoomManage;
 import service.manage.UserManage;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.util.Scanner;
 
 public class ManageOption {
 
-    public static void roomManageOption(String username) {
+    public static void roomManageOption(String username) throws IOException, ParseException {
         RoomManage.getRoomList();
         UserManage.getUserList();
         int choice = -1;
         while (choice != 0) {
             ShowMenu.showRoomMenu();
-            Scanner scanner = new Scanner(System.in);
-            choice = scanner.nextInt();
+            choice = Account.choiceExceptionHandling();
             switch (choice) {
                 case 1:
                     RoomManage.displayListRoom();
@@ -60,8 +59,13 @@ public class ManageOption {
         int choice = -1;
         while (choice != 0) {
             ShowMenu.showReceiptMenu();
-            Scanner scanner = new Scanner(System.in);
-            choice = scanner.nextInt();
+            choice = Account.choiceExceptionHandling();
+
+//        int choice = -1;
+//        while (choice != 0) {
+//            ShowMenu.showReceiptMenu();
+//            Scanner scanner = new Scanner(System.in);
+//            choice = scanner.nextInt();
             switch (choice) {
                 case 1:
                     ReceiptManage.displayAllReceipt();
@@ -78,8 +82,6 @@ public class ManageOption {
                 case 5:
                     ReceiptManage.writeReceiptToFile();
                     break;
-                default:
-                    System.err.println("Không có tùy chọn. Vui lòng nhập lại!");
             }
         }
     }

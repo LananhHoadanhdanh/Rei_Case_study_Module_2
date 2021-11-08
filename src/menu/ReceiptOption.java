@@ -1,18 +1,16 @@
-package Menu;
+package menu;
 
-import models.DateCalculator;
-import models.Receipt;
-import models.Room;
-import models.Validation;
+import model.DateCalculator;
+import model.Validation;
 import service.manage.ReceiptManage;
-import service.manage.RoomManage;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ReceiptOption {
-    public static void receiptOptionUpdateById() throws ParseException {
+    public static void receiptOptionUpdateById() throws ParseException, IOException {
         ReceiptManage.getReceiptList();
         String receiptId = null;
         System.out.print("Nhập số hóa đơn muốn sửa: ");
@@ -31,7 +29,7 @@ public class ReceiptOption {
         ReceiptManage.add(ReceiptManage.createReceipt());
     }
 
-    public static void receiptOptionDeleteById() {
+    public static void receiptOptionDeleteById() throws IOException, ParseException {
         ReceiptManage.getReceiptList();
         String receiptId = null;
         System.out.print("Nhập số hóa đơn muốn xóa: ");
@@ -50,7 +48,7 @@ public class ReceiptOption {
         System.out.println("Đã xóa thành công!");
     }
 
-    public static void receiptOptionFindByDay() throws ParseException {
+    public static void receiptOptionFindByDay() throws ParseException, IOException {
         ReceiptManage.getReceiptList();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Nhập ngày bắt đầu (định dạng dd/MM/yyyy): ");

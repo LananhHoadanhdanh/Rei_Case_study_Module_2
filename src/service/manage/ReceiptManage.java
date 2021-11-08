@@ -1,8 +1,8 @@
 package service.manage;
 
-import models.DateCalculator;
-import models.Receipt;
-import models.Validation;
+import model.DateCalculator;
+import model.Receipt;
+import model.Validation;
 import service.interfaceService.ReceiptService;
 
 import java.io.BufferedWriter;
@@ -18,25 +18,27 @@ public class ReceiptManage implements ReceiptService {
     private static ArrayList<Receipt> receiptList;
 
     private ReceiptManage() {
-
     }
 
-    public static ArrayList<Receipt> getReceiptList() {
+    public static ArrayList<Receipt> getReceiptList() throws IOException, ParseException {
         if (receiptList == null) {
             receiptList = new ArrayList<>();
             receiptList.add(new Receipt("000001", "Lươn Như Anh", "Phạm Thị Lan Anh", "07/11/2021", "10/11/2021" ,101));
             receiptList.add(new Receipt("000002", "Lươn Đình Ánh", "Phạm Thị Lan Anh", "07/11/2021", "10/11/2021" ,102));
             receiptList.add(new Receipt("000003", "Lươn Đức Việt", "Phạm Thị Lan Anh", "07/11/2021", "10/11/2021" ,103));
         }
+        writeReceiptToFile();
         return receiptList;
     }
 
-    public static void add(Receipt receipt) {
+    public static void add(Receipt receipt) throws IOException, ParseException {
         receiptList.add(receipt);
+        writeReceiptToFile();
     }
 
-    public static void delete(String id) {
+    public static void delete(String id) throws IOException, ParseException {
         receiptList.remove(findIndexById(id));
+        writeReceiptToFile();
     }
 
     public static void displayAllReceipt() {
@@ -84,8 +86,7 @@ public class ReceiptManage implements ReceiptService {
         FileWriter fileWriter = new FileWriter("src/service/manage.csv");
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         String str = "Số hóa đơn,Tên khách hàng,Tên nhân viên,Giờ check-in,Giờ check-out,Tổng số tiền";
-        for (int i = 0; i < receiptList.size(); i++) {
-            Receipt receipt = receiptList.get(i);
+        for (Receipt receipt : receiptList) {
             str += "\n";
             str += receipt.getReceiptID() + ",";
             str += receipt.getCustomerName() + ",";
@@ -98,7 +99,7 @@ public class ReceiptManage implements ReceiptService {
         bufferedWriter.close();
     }
 
-    public static Receipt createReceipt() throws ParseException {
+    public static Receipt createReceipt() throws ParseException, IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Nhập số hóa đơn: ");
         String receiptId = scanner.nextLine();
