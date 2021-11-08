@@ -20,25 +20,20 @@ public class RoomManage implements RoomService {
     public static ArrayList<Room> getRoomList() throws IOException {
         if (roomList == null) {
             roomList = new ArrayList<>();
-            roomList.add(new Room(101, 10000, Room.READY, 1, 1));
-            roomList.add(new Room(102, 15000, Room.READY, 1, 2));
-            roomList.add(new Room(103, 20000, Room.READY, 2, 2));
         }
-        writeRoomToFile();
-        readRoomFromFile();
         return roomList;
     }
 
     public static void add(Room room) throws IOException, ParseException {
         roomList.add(room);
-        writeRoomToFile();
         readRoomFromFile();
+        writeRoomToFile();
     }
 
     public static void delete(int id) throws IOException, ParseException {
         roomList.remove(findIndexById(id));
-        writeRoomToFile();
         readRoomFromFile();
+        writeRoomToFile();
     }
 
     public static int findIndexById(int id) {

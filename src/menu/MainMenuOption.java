@@ -12,8 +12,20 @@ import java.util.Scanner;
 public class MainMenuOption {
     public static void main(String[] args) throws IOException, ParseException {
         RoomManage.getRoomList();
+        RoomManage.readRoomFromFile();
+        RoomManage.writeRoomToFile();
+
+
         UserManage.getUserList();
+        UserManage.readUserFromFile();
+        UserManage.writeUserToFile();
+
+
         ReceiptManage.getReceiptList();
+        ReceiptManage.readReceiptFromFile();
+        ReceiptManage.writeReceiptToFile();
+
+
         int choice = -1;
         while (choice != 0) {
             Scanner scanner = new Scanner(System.in);

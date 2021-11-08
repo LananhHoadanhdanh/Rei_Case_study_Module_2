@@ -21,25 +21,20 @@ public class ReceiptManage implements ReceiptService {
     public static ArrayList<Receipt> getReceiptList() throws IOException, ParseException {
         if (receiptList == null) {
             receiptList = new ArrayList<>();
-            receiptList.add(new Receipt("000001", "Lươn Như Anh", "Phạm Thị Lan Anh", "07/11/2021", "10/11/2021" ,101));
-            receiptList.add(new Receipt("000002", "Lươn Đình Ánh", "Phạm Thị Lan Anh", "07/11/2021", "10/11/2021" ,102));
-            receiptList.add(new Receipt("000003", "Lươn Đức Việt", "Phạm Thị Lan Anh", "07/11/2021", "10/11/2021" ,103));
         }
-        writeReceiptToFile();
-        readReceiptFromFile();
         return receiptList;
     }
 
     public static void add(Receipt receipt) throws IOException, ParseException {
         receiptList.add(receipt);
-        writeReceiptToFile();
         readReceiptFromFile();
+        writeReceiptToFile();
     }
 
     public static void delete(String id) throws IOException, ParseException {
         receiptList.remove(findIndexById(id));
-        writeReceiptToFile();
         readReceiptFromFile();
+        writeReceiptToFile();
     }
 
     public static void displayAllReceipt() {

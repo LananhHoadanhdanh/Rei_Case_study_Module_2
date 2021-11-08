@@ -19,24 +19,20 @@ public class UserManage {
     public static ArrayList<User> getUserList() throws IOException {
         if (usersList == null) {
             usersList = new ArrayList<>();
-            usersList.add(new User("Phạm Thị Lan Anh", 25, "0969001936", "chituhoa@gmail.com", "chituhoa", "danhdanh"));
-            usersList.add(new User("Igata Kasakura", 21, "0969001936", "chituhoa@gmail.com", "hoadanhdanh", "danhdanh"));
         }
-        writeUserToFile();
-        readUserFromFile();
         return usersList;
     }
 
     public static void add(User user) throws IOException {
         usersList.add(user);
-        writeUserToFile();
         readUserFromFile();
+        writeUserToFile();
     }
 
     public static void deleteUser(String username) throws IOException {
         usersList.remove(findIndexByUsername(username));
-        writeUserToFile();
         readUserFromFile();
+        writeUserToFile();
     }
 
     public static int findIndexByUsername(String username){
