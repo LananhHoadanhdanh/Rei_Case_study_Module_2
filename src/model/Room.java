@@ -97,7 +97,7 @@ public class Room implements Comparable<Room>{
         return String.format("%-10d %-10d %-20s %-15d %-15d", roomID, price, status, numberOfBed, numberOfToilet);
     }
 
-    public Boolean doCheckIn() {
+    public boolean doCheckIn() {
         if (this.getStatus().equals(Room.READY)) {
             this.setStatus(Room.OCCUPIED);
             this.setLastCheckIn(java.time.LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -119,7 +119,6 @@ public class Room implements Comparable<Room>{
             return true;
         } return false;
     }
-
 
     @Override
     public int compareTo(Room o) {

@@ -1,6 +1,8 @@
 package menu;
 
 import model.Account;
+import service.manage.ReceiptManage;
+import service.manage.RoomManage;
 import service.manage.UserManage;
 
 import java.io.IOException;
@@ -9,7 +11,7 @@ import java.util.Scanner;
 
 public class LoginMenu{
 
-    public static String createUsername() {
+    public static String createUsername() throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Nhập tên đăng nhập: ");
         String username = scanner.nextLine();

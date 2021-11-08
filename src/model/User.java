@@ -79,9 +79,9 @@ public class User {
         return String.format("%-20s %-10d %-20s %-25s", fullName, age, phoneNumber, email);
     }
 
-    public void doCheckInForCustomer(int roomId) {
+    public void doCheckInForCustomer(int roomId) throws IOException {
         if (RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).doCheckIn()) {
-            System.out.println(Validation.BLUE + "Đã hoàn tất thủ tục check-in. Thời gian: " + java.time.LocalDate.now() + Validation.BLUE);
+            System.out.println("Đã hoàn tất thủ tục check-in. Thời gian: " + java.time.LocalDate.now());
         } else {
             System.err.println("Không thể hoàn tất thủ tục check-in. Phòng đang ở trạng thái: " + RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus());
         }
@@ -113,9 +113,9 @@ public class User {
         }
     }
 
-    public void cleanTheRoom(int roomId){
+    public void cleanTheRoom(int roomId) throws IOException {
         if (RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).cleanTheRoom()) {
-            System.out.println(Validation.BLUE + "Đã dọn dẹp xong." + Validation.BLUE);
+            System.out.println("Đã dọn dẹp xong.");
         } else {
             System.err.println("Không thể dọn dẹp. Phòng đang ở trạng thái: " + RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus());
         }

@@ -1,6 +1,8 @@
 package menu;
 
 import model.Account;
+import service.manage.ReceiptManage;
+import service.manage.RoomManage;
 import service.manage.UserManage;
 
 import java.io.IOException;
@@ -9,6 +11,9 @@ import java.util.Scanner;
 
 public class MainMenuOption {
     public static void main(String[] args) throws IOException, ParseException {
+        RoomManage.getRoomList();
+        UserManage.getUserList();
+        ReceiptManage.getReceiptList();
         int choice = -1;
         while (choice != 0) {
             Scanner scanner = new Scanner(System.in);

@@ -5,9 +5,7 @@ import model.Receipt;
 import model.Validation;
 import service.interfaceService.ReceiptService;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,17 +26,20 @@ public class ReceiptManage implements ReceiptService {
             receiptList.add(new Receipt("000003", "Lươn Đức Việt", "Phạm Thị Lan Anh", "07/11/2021", "10/11/2021" ,103));
         }
         writeReceiptToFile();
+        readReceiptFromFile();
         return receiptList;
     }
 
     public static void add(Receipt receipt) throws IOException, ParseException {
         receiptList.add(receipt);
         writeReceiptToFile();
+        readReceiptFromFile();
     }
 
     public static void delete(String id) throws IOException, ParseException {
         receiptList.remove(findIndexById(id));
         writeReceiptToFile();
+        readReceiptFromFile();
     }
 
     public static void displayAllReceipt() {
@@ -61,7 +62,7 @@ public class ReceiptManage implements ReceiptService {
         } return -1;
     }
 
-    public static void displayReceiptListByDay(String startDay, String endDay) throws ParseException {
+    public static void displayReceiptListByDay(String startDay, String endDay) throws ParseException, IOException {
         Collections.sort(receiptList);
         int sumTotal = 0;
         System.out.println();
@@ -83,20 +84,40 @@ public class ReceiptManage implements ReceiptService {
 
     public static void writeReceiptToFile() throws IOException, ParseException {
         Collections.sort(receiptList);
-        FileWriter fileWriter = new FileWriter("src/service/manage.csv");
+        FileWriter fileWriter = new FileWriter("src/service/receiveManageFile.csv");
         BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        String str = "Số hóa đơn,Tên khách hàng,Tên nhân viên,Giờ check-in,Giờ check-out,Tổng số tiền";
+        String str = "Số hóa đơn,Tên khách hàng,Tên nhân viên,Số phòng, Giờ check-in,Giờ check-out,Tổng số tiền";
         for (Receipt receipt : receiptList) {
             str += "\n";
             str += receipt.getReceiptID() + ",";
             str += receipt.getCustomerName() + ",";
             str += receipt.getStaffName() + ",";
+            str += receipt.getRoomId() + ",";
             str += receipt.getCheckInTime() + ",";
             str += receipt.getCheckOutTime() + ",";
             str += receipt.getTotalPrice();
         }
         bufferedWriter.write(str);
         bufferedWriter.close();
+    }
+
+    public static void readReceiptFromFile() throws IOException {
+        receiptList = new ArrayList<>();
+        FileReader fileReader = new FileReader("src/service/receiveManageFile.csv");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String content = bufferedReader.readLine();
+        while ((content = bufferedReader.readLine()) != null) {
+            String[] array = content.split(",");
+            String receiptId = array[0];
+            String customerName = array[1];
+            String staffName = array[2];
+            int roomId = Integer.parseInt(array[3]);
+            String checkInTime = array[4];
+            String checkOutTime = array[5];
+            receiptList.add(new Receipt(receiptId, customerName, staffName, checkInTime, checkOutTime, roomId));
+        }
+        bufferedReader.close();
+        fileReader.close();
     }
 
     public static Receipt createReceipt() throws ParseException, IOException {

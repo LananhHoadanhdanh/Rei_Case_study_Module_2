@@ -2,17 +2,18 @@ package model;
 
 import service.manage.UserManage;
 
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Account {
 
-    public static void register() {
+    public static void register() throws IOException {
         UserManage.getUserList();
         UserManage.add(UserManage.createUser());
     }
 
-    public static boolean login(String username, String password) {
+    public static boolean login(String username, String password) throws IOException {
         int index = UserManage.findIndexByUsername(username);
         return UserManage.getUserList().get(index).getPassword().equals(password);
     }

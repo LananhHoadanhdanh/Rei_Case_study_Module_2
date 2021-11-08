@@ -11,7 +11,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RoomOption {
-    public static void roomOptionCheckIn(String username) {
+    public static void roomOptionCheckIn(String username) throws IOException {
         RoomManage.getRoomList();
         int roomId = 0;
         System.out.print("Nhập số phòng: ");
@@ -49,7 +49,7 @@ public class RoomOption {
         user.doCheckOutForCustomer(roomId);
     }
 
-    public static void roomOptionClean(String username) {
+    public static void roomOptionClean(String username) throws IOException {
         RoomManage.getRoomList();
         int roomId = 0;
         System.out.print("Nhập số phòng: ");
@@ -68,12 +68,12 @@ public class RoomOption {
         user.cleanTheRoom(roomId);
     }
 
-    public static void roomOptionAdd() {
+    public static void roomOptionAdd() throws IOException, ParseException {
         RoomManage.getRoomList();
         RoomManage.add(RoomManage.createRoom());
     }
 
-    public static void roomOptionUpdate() {
+    public static void roomOptionUpdate() throws IOException, ParseException {
         RoomManage.getRoomList();
         int roomId = 0;
         System.out.print("Nhập số phòng muốn sửa: ");
@@ -94,7 +94,7 @@ public class RoomOption {
         System.out.println("Cập nhật thành công!!!");
     }
 
-    public static void roomOptionInformationById() {
+    public static void roomOptionInformationById() throws IOException {
         RoomManage.getRoomList();
         int roomId = 0;
         System.out.print("Nhập số phòng: ");
@@ -112,7 +112,7 @@ public class RoomOption {
         RoomManage.getInformationById(roomId);
     }
 
-    public static void roomOptionDeleteById() {
+    public static void roomOptionDeleteById() throws IOException, ParseException {
         RoomManage.getRoomList();
         int roomId = 0;
         String status = RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getStatus();

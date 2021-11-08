@@ -11,8 +11,6 @@ import java.text.ParseException;
 public class ManageOption {
 
     public static void roomManageOption(String username) throws IOException, ParseException {
-        RoomManage.getRoomList();
-        UserManage.getUserList();
         int choice = -1;
         while (choice != 0) {
             ShowMenu.showRoomMenu();

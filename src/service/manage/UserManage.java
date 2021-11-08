@@ -1,9 +1,12 @@
 package service.manage;
 
+import model.Room;
 import model.User;
 import model.Validation;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -13,16 +16,27 @@ public class UserManage {
     private UserManage() {
         }
 
-    public static ArrayList<User> getUserList() {
+    public static ArrayList<User> getUserList() throws IOException {
         if (usersList == null) {
             usersList = new ArrayList<>();
             usersList.add(new User("Phạm Thị Lan Anh", 25, "0969001936", "chituhoa@gmail.com", "chituhoa", "danhdanh"));
             usersList.add(new User("Igata Kasakura", 21, "0969001936", "chituhoa@gmail.com", "hoadanhdanh", "danhdanh"));
-        } return usersList;
+        }
+        writeUserToFile();
+        readUserFromFile();
+        return usersList;
     }
 
-    public static void add(User user) {
+    public static void add(User user) throws IOException {
         usersList.add(user);
+        writeUserToFile();
+        readUserFromFile();
+    }
+
+    public static void deleteUser(String username) throws IOException {
+        usersList.remove(findIndexByUsername(username));
+        writeUserToFile();
+        readUserFromFile();
     }
 
     public static int findIndexByUsername(String username){
@@ -47,11 +61,7 @@ public class UserManage {
         }
     }
 
-    public static void deleteUser(String username) {
-        usersList.remove(findIndexByUsername(username));
-    }
-
-    public static User createUser(){
+    public static User createUser() throws IOException {
         Scanner scanner = new Scanner(System.in);
         getUserList();
         System.out.println("Nhập tên đăng nhập: ");
@@ -100,5 +110,40 @@ public class UserManage {
             email = scanner.nextLine();
         }
         return new User(name, age, phoneNumber, email, username, password);
+    }
+
+    public static void writeUserToFile() throws IOException {
+        FileWriter fileWriter = new FileWriter("src/service/userManageFile.csv");
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        String str = "Họ và tên,Tuổi,Số điện thoại,Email,Tên đăng nhập,Password";
+        for (User user : usersList) {
+            str += "\n" + user.getFullName() + ",";
+            str += user.getAge() + ",";
+            str += user.getPhoneNumber() + ",";
+            str += user.getEmail() + ",";
+            str += user.getUsername() + ",";
+            str += user.getPassword();
+        }
+        bufferedWriter.write(str);
+        bufferedWriter.close();
+    }
+
+    public static void readUserFromFile() throws IOException {
+        usersList = new ArrayList<>();
+        FileReader fileReader = new FileReader("src/service/userManageFile.csv");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String content = bufferedReader.readLine();
+        while ((content = bufferedReader.readLine()) != null) {
+            String[] array = content.split(",");
+            String fullName = array[0];
+            int age = Integer.parseInt(array[1]);
+            String phoneNumber = array[2];
+            String email = array[3];
+            String username = array[4];
+            String password = array[5];
+            usersList.add(new User(fullName, age, phoneNumber, email, username, password));
+        }
+        bufferedReader.close();
+        fileReader.close();
     }
 }

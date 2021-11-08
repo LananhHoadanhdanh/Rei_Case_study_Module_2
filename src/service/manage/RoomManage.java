@@ -1,8 +1,11 @@
 package service.manage;
 
+import model.Receipt;
 import model.Room;
 import service.interfaceService.RoomService;
 
+import java.io.*;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.InputMismatchException;
@@ -14,22 +17,28 @@ public class RoomManage implements RoomService {
     private RoomManage() {
     }
 
-    public static ArrayList<Room> getRoomList() {
+    public static ArrayList<Room> getRoomList() throws IOException {
         if (roomList == null) {
             roomList = new ArrayList<>();
             roomList.add(new Room(101, 10000, Room.READY, 1, 1));
             roomList.add(new Room(102, 15000, Room.READY, 1, 2));
             roomList.add(new Room(103, 20000, Room.READY, 2, 2));
         }
+        writeRoomToFile();
+        readRoomFromFile();
         return roomList;
     }
 
-    public static void add(Room room) {
+    public static void add(Room room) throws IOException, ParseException {
         roomList.add(room);
+        writeRoomToFile();
+        readRoomFromFile();
     }
 
-    public static void delete(int id) {
+    public static void delete(int id) throws IOException, ParseException {
         roomList.remove(findIndexById(id));
+        writeRoomToFile();
+        readRoomFromFile();
     }
 
     public static int findIndexById(int id) {
@@ -67,7 +76,7 @@ public class RoomManage implements RoomService {
         System.out.println();
     }
 
-    public static Room createRoom() {
+    public static Room createRoom() throws IOException {
         RoomManage.getRoomList();
 
         System.out.print("Nhập số phòng: ");
@@ -145,7 +154,7 @@ public class RoomManage implements RoomService {
         System.out.println();
     }
 
-    public static void getInformationById(int id) {
+    public static void getInformationById(int id) throws IOException {
         Room room = RoomManage.getRoomList().get(RoomManage.findIndexById(id));
         System.out.println();
         System.out.println("______________________***  THÔNG TIN VỀ PHÒNG "+ id +" ***______________________");
@@ -154,5 +163,39 @@ public class RoomManage implements RoomService {
         System.out.println(room);
         System.out.println("__________________________________________________________________________");
         System.out.println();
+    }
+
+    public static void writeRoomToFile() throws IOException{
+        Collections.sort(roomList);
+        FileWriter fileWriter = new FileWriter("src/service/roomManageFile.csv");
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        String str = "Số phòng,Giá thuê phòng,Trạng thái hiện tại,Số giường ngủ, Số nhà vệ sinh";
+        for (Room room : roomList) {
+            str += "\n" + room.getRoomID() + ",";
+            str += room.getPrice() + ",";
+            str += room.getStatus() + ",";
+            str += room.getNumberOfBed() + ",";
+            str += room.getNumberOfToilet();
+        }
+        bufferedWriter.write(str);
+        bufferedWriter.close();
+    }
+
+    public static void readRoomFromFile() throws IOException {
+        roomList = new ArrayList<>();
+        FileReader fileReader = new FileReader("src/service/roomManageFile.csv");
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String content = bufferedReader.readLine();
+        while ((content = bufferedReader.readLine()) != null) {
+            String[] array = content.split(",");
+            int roomID = Integer.parseInt(array[0]);
+            int price = Integer.parseInt(array[1]);
+            String status = array[2];
+            int numberOfBed = Integer.parseInt(array[3]);
+            int numberOfToilet = Integer.parseInt(array[4]);
+            roomList.add(new Room(roomID, price, status, numberOfBed, numberOfToilet));
+        }
+        bufferedReader.close();
+        fileReader.close();
     }
 }

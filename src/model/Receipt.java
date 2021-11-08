@@ -2,6 +2,7 @@ package model;
 
 import service.manage.RoomManage;
 
+import java.io.IOException;
 import java.text.ParseException;
 
 public class Receipt implements Comparable<Receipt>{
@@ -13,13 +14,6 @@ public class Receipt implements Comparable<Receipt>{
     private int roomId;
 
     public Receipt() {
-    }
-
-    public Receipt(String receiptID, String customerName, String checkInTime, String checkOutTime) {
-        this.receiptID = receiptID;
-        this.customerName = customerName;
-        this.checkInTime = checkInTime;
-        this.checkOutTime = checkOutTime;
     }
 
     public Receipt(String receiptID, String customerName, String staffName, String checkInTime, String checkOutTime, int roomId) {
@@ -79,7 +73,7 @@ public class Receipt implements Comparable<Receipt>{
         this.checkOutTime = checkOutTime;
     }
 
-    public long getTotalPrice() throws ParseException {
+    public long getTotalPrice() throws ParseException, IOException {
         int roomPrice = RoomManage.getRoomList().get(RoomManage.findIndexById(roomId)).getPrice();
         long dateCal = DateCalculator.dateCalculator(checkInTime, checkOutTime);
         return roomPrice * (dateCal + 1);
@@ -90,7 +84,7 @@ public class Receipt implements Comparable<Receipt>{
         String str = null;
         try {
             str = String.format("%-15s %-20s %-20s %-15s %-15s %-15d", receiptID, customerName, staffName, checkInTime, checkOutTime, getTotalPrice());
-        } catch (ParseException e) {
+        } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
         return str;
