@@ -37,6 +37,7 @@ public class MainMenuOption {
                     break;
                 case 2:
                     Account.register();
+                    System.out.println("Đăng kí thành công!");
                     break;
                 case 3:
                     String username = LoginMenu.createUsername();
